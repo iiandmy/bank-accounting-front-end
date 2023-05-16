@@ -1,6 +1,6 @@
-import { makeAutoObservable } from "mobx";
+import {makeAutoObservable} from "mobx";
 import NetworkService from "../network/NetworkService";
-import { LOCAL_STORAGE_IS_ADMIN_FLAG_KEY, LOCAL_STORAGE_TOKEN_KEY } from "../utils/localStorageKeys";
+import {LOCAL_STORAGE_IS_ADMIN_FLAG_KEY, LOCAL_STORAGE_TOKEN_KEY} from "../utils/localStorageKeys";
 
 class AuthStorage {
   isAdmin = false
@@ -24,6 +24,15 @@ class AuthStorage {
 
     console.log(`TOKEN ${this.token}`)
   }
+
+  register = async (firstName, lastName, email, password) => {
+    return await NetworkService.register({
+      firstName,
+      lastName,
+      email,
+      password
+    })
+}
 
   logout = () => {
     this.setToken("")

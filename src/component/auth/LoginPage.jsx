@@ -12,6 +12,7 @@ import {
 import AuthStorage from "../../storage/AuthStorage";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {LOCAL_STORAGE_TOKEN_KEY} from "../../utils/localStorageKeys";
 
 export const LoginPage = () => {
 	const [ email, setEmail ] = useState("")
@@ -26,9 +27,9 @@ export const LoginPage = () => {
 				setEmail("")
 				setPassword("")
 			})
-			.then(r => {
-				navigate("/")
-			})
+		if (localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) !== null) {
+			navigate("/")
+		}
 	}
 
 	const handleRegisterClick = () => navigate("/register")
@@ -61,11 +62,15 @@ export const LoginPage = () => {
 						<Box>
 							<FormControl variant="standard" sx={{width: "100%"}}>
 								<InputLabel>Email</InputLabel>
-								<Input onChange={ handleEmailChange } />
+								<Input onChange={ handleEmailChange }
+									value={email}
+								/>
 							</FormControl>
 							<FormControl variant="standard" sx={{width: "100%", marginY: "1rem"}}>
 								<InputLabel>Password</InputLabel>
-								<Input onChange={ handlePasswordChange } />
+								<Input onChange={ handlePasswordChange }
+									value={password}
+								/>
 							</FormControl>
 						</Box>
 						<Divider sx={{marginBottom: "1rem"}} />

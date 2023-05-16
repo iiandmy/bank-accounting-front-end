@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import {makeAutoObservable} from "mobx";
 import NetworkService from "../network/NetworkService";
 
 class ProfileStorage {
@@ -16,6 +16,11 @@ class ProfileStorage {
     for (let credit of credits) {
       this.addCredit(credit)
     }
+  }
+
+  async payCredit(creditId) {
+    await NetworkService.payCredit(creditId)
+    await this.fetchCredits()
   }
 
   addCredit(credit) {

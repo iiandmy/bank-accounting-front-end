@@ -1,6 +1,7 @@
-import {Card, CardContent, Divider, Grid, Stack, Typography} from "@mui/material";
+import {Card, CardContent, Divider, Button, Grid, Stack, Typography} from "@mui/material";
 import { Circle } from "@mui/icons-material";
 import React from "react";
+import ProfileStorage from "../../../storage/ProfileStorage";
 
 export const CreditCard = (
 	{
@@ -19,6 +20,19 @@ export const CreditCard = (
 			case "PENDING": return "#FAA34E"
 			case "PAID": return "#33BE51"
 			default: return ""
+		}
+	}
+
+	const handlePayClick = async () => {
+		if (status !== "ACTIVE") {
+			alert(`Can not pay for credit(id:${id}). Refresh credit list`)
+			return
+		}
+		let resp = await ProfileStorage.payCredit(id)
+		console.log(resp)
+		if (resp !== undefined) {
+			status = "PAID"
+			alert(`Credit with id:${id} payed successfully`)
 		}
 	}
 
@@ -59,6 +73,14 @@ export const CreditCard = (
 						</Typography>
 					</Grid>
 				</Grid>
+				{
+					status === "ACTIVE" ?
+						<>
+							<Divider sx={{marginY: "1rem"}}/>
+							<Button variant="contained" onClick={handlePayClick}>Pay</Button>
+						</>
+					: <></>
+				}
 			</CardContent>
 		</Card>
 	)
